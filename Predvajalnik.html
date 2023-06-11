@@ -150,7 +150,7 @@
       var prejsnje = document.getElementById("prev");
   
       var xhr = new XMLHttpRequest();
-      xhr.open("GET", "zvocnedatoteke", true);
+      xhr.open("GET", "glasbenedatoteke", true);
       xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
           var datoteke = Array.from(xhr.responseXML.getElementsByTagName("a"))

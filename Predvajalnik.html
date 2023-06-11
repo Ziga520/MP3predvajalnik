@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PREDVAJALNIK GLASBE</title>
+  <style>
+  
+
+    .menu {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: gray; 
+      color: white;
+      padding: 5px;
+      margin-left:200px;
+      margin-right: 200px;
+    }
+
+    .menu a {
+      color: white;
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+
+    .menu a:hover {
+      background-color: #333;
+    }
+
+    .sidebar {
+      width: 200px;
+      height: 100vh;
+      background-color: black;
+      color: white;
+      padding: 10px;
+      position: fixed;
+      top: 0;
+    }
+
+    .sidebar-left {
+      left: 0;
+    }
+
+    .sidebar-right {
+      right: 0;
+    }
+
+    
+    
+    body {
+      background-color: #eee;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .audio-player {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin-top: 50px;
+      margin-left: 200px;
+      margin-right: 200px;
+    }
+
+    .audio-player h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .audio-player img {
+      width: 200px;
+      height: auto;
+      margin-top: 20px;
+      transform: scale(1, 0.7); 
+    }
+
+
+    .audio-player audio {
+      margin: 20px 0;
+
+      width: 300px;
+    }
+
+
+    .gumbi {
+      margin-right: 10px;
+
+      padding: 10px 20px;
+
+      border: none;
+
+      border-radius: 5px;
+
+      background-color: #4CAF50;
+
+      color: white;
+
+      font-size: 16px;
+
+      cursor: pointer;
+
+      transition: background-color 0.3s ease;
+    }
+
+    .audio-player button:hover {
+      background-color: #45a049;
+    }
+
+    .mojprofil {
+      margin-left: 50px;
+    }
+
+    .odjavise {
+      margin-right: 50px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="sidebar sidebar-left"></div>
+  
+  <div class="menu">
+    <a href="mojprofil.html" class="mojprofil">Moj profil</a>
+    <a href="Predvajalnik.html" class="domov">Domov</a>
+    <a href="prijava.html" class="odjavise">Odjavi se</a>
+  </div>
+  
+  <div class="sidebar sidebar-right"></div>
+  
+  <div class="audio-player">
+    <h1>PREDVAJALNIK GLASBE</h1>
+    <img src="logo.jpg" alt="Logo">
+    <audio id="audio" controls>
+      Vas brskalnik ne podpira predvajanja zvocnih datotek.
+    </audio>
+    <div>
+      <button id="play-pause">Predvajaj/Pavza</button>
+      <button id="skip">Preskoci pesem</button>
+      <button id="prev">Predvajaj prejsnjo pesem</button>
+    </div>
+  
+    <script>
+      var zvok = document.getElementById("audio");
+      var pavza = document.getElementById("play-pause");
+      var preskoci = document.getElementById("skip");
+      var prejsnje = document.getElementById("prev");
+  
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "zvocnedatoteke", true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var datoteke = Array.from(xhr.responseXML.getElementsByTagName("a"))
+            .map(function(element) {
+              return element.getAttribute("href");
+            })
+            .filter(function(datoteka) {
+              return datoteka.endsWith(".mp3");
+            });
+  
+          datoteke.forEach(function(datoteka) {
+            var source = document.createElement("source");
+            source.src = "" + datoteka;
+            source.type = "audio/mpeg";
+            audio.appendChild(source);
+          });
+        }
+      };
+      xhr.send();
+  
+      pavza.addEventListener("click", function() {
+        if (zvok.paused) {
+          zvok.play();
+          pavza.textContent = "Pavza";
+        } else {
+          zvok.pause();
+          pavza.textContent = "Predvajaj";
+        }
+      });
+  
+      preskoci.addEventListener("click", function() {
+        zvok.currentTime += 10; 
+      });
+  
+      prejsnje.addEventListener("click", function() {
+        zvok.currentTime -= 10; 
+      });
+    </script>
+  
+  </div>
+  </div>
+</body>
+</html>
+
+
+
